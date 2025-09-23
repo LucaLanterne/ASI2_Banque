@@ -1,5 +1,6 @@
 package com.banque.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -27,6 +28,7 @@ public class TypeProduit {
     // Création du lien OneToMany côté NON propriétaire
     // mappedBy contient le nom de l'attribut ManyToOne dans ProduitBancaire
     @OneToMany(mappedBy = "typeProduit", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @JsonIgnore
     private List<ProduitBancaire> produitsBancaires=new ArrayList<>();
 
     public TypeProduit() {}
@@ -83,6 +85,18 @@ public class TypeProduit {
     {
         this.produitsBancaires.remove(produitBancaire);
         produitBancaire.setTypeProduit(null);
+    }
+
+    @PreRemove
+    private void gererLiens()
+    {
+        // Pour casser le lien avec les types de produits
+        // À utiliser dans le cas d'une cardinalité minimale 0
+        for (ProduitBancaire pb : produitsBancaires)
+        {
+            pb.setTypeProduit(null);
+        }
+        produitsBancaires.clear();
     }
 
     @Override

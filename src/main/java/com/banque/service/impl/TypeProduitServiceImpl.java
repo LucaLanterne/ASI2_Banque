@@ -30,7 +30,7 @@ public class TypeProduitServiceImpl implements TypeProduitService {
     }
 
     @Override
-    public TypeProduit getTypeProduitById(Long id)
+    public TypeProduit getTypeProduitById(long id)
     {
         return typeProduitRepository.findById(id).orElseThrow();
     }
@@ -42,7 +42,7 @@ public class TypeProduitServiceImpl implements TypeProduitService {
     }
 
     @Override
-    public void deleteTypeProduitById(Long id)
+    public void deleteTypeProduitById(long id)
     {
         typeProduitRepository.findById(id).orElseThrow();
         typeProduitRepository.deleteById(id);
