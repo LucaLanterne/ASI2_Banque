@@ -42,36 +42,28 @@ public class TypeProduit {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public float getTauxInteretAgios() {
         return tauxInteretAgios;
     }
-
     public void setTauxInteretAgios(float tauxInteretAgios) {
         this.tauxInteretAgios = tauxInteretAgios;
     }
-
     public String getIntitule() {
         return intitule;
     }
-
     public void setIntitule(String intitule) {
         this.intitule = intitule;
     }
-
     public float getCotisationCarte() {
         return cotisationCarte;
     }
-
     public void setCotisationCarte(float cotisationCarte) {
         this.cotisationCarte = cotisationCarte;
     }
     public List<ProduitBancaire> getProduitsBancaires() {return produitsBancaires;}
-
     public void setProduitsBancaires(List<ProduitBancaire> produitsBancaires) {
 
         this.produitsBancaires = produitsBancaires;
