@@ -116,6 +116,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.sql.Date;
 import java.util.List;
 
 @SpringBootApplication
@@ -132,7 +133,8 @@ public class BanqueApplication
                                     PersonnePhysiqueRepository personnePhysiqueRepository,
                                     ProduitBancaireRepository produitBancaireRepository,
                                     TypePersonneMoraleRepository typePersonneMoraleRepository,
-                                    ClientBancaireRepository clientBancaireRepository)
+                                    ClientBancaireRepository clientBancaireRepository,
+                                    OperationRepository operationRepository)
     {
         return args -> {
             //////////////////// Code précédent
@@ -237,82 +239,168 @@ public class BanqueApplication
 //                System.out.println("pm3 n'existe plus");
 //            }
 
-            List<TypeProduit> typesProduits;
-            List<ProduitBancaire> produitBancaires;
-            TypeProduit tp1=new TypeProduit((float)0.2,"tp1",0);
-            typeProduitRepository.save(tp1);
-            TypeProduit tp2=new TypeProduit(3,"tp2",0);
-            typeProduitRepository.save(tp2);
-            TypeProduit tp3=new TypeProduit(0,"tp3",15);
-            typeProduitRepository.save(tp3);
+//            List<TypeProduit> typesProduits;
+//            List<ProduitBancaire> produitBancaires;
+//            TypeProduit tp1=new TypeProduit((float)0.2,"tp1",0);
+//            typeProduitRepository.save(tp1);
+//            TypeProduit tp2=new TypeProduit(3,"tp2",0);
+//            typeProduitRepository.save(tp2);
+//            TypeProduit tp3=new TypeProduit(0,"tp3",15);
+//            typeProduitRepository.save(tp3);
+//
+//            // Création de produits bancaires
+//            tp3= typeProduitRepository.findById(tp3.getId()).orElseThrow();
+//            ProduitBancaire pb1 = new ProduitBancaire(3,"num6",tp3);
+//            produitBancaireRepository.save(pb1);
+//            tp2= typeProduitRepository.findById(tp2.getId()).orElseThrow();
+//            ProduitBancaire pb2 = new ProduitBancaire(1,"num4",tp2);
+//            produitBancaireRepository.save(pb2);
+//            tp3= typeProduitRepository.findById(tp3.getId()).orElseThrow();
+//            ProduitBancaire pb3 = new ProduitBancaire(2,"num5",tp3);
+//            produitBancaireRepository.save(pb3);
+//
+//            // Création de personnes physiques
+//            PersonnePhysique pp1=new PersonnePhysique("adresse_pp1","nom_pp1","prenom_pp1");
+//            personnePhysiqueRepository.save(pp1);
+//            PersonnePhysique pp2=new PersonnePhysique("adresse_pp2","nom_pp2","prenom_pp2");
+//            personnePhysiqueRepository.save(pp2);
+//            PersonnePhysique pp3=new PersonnePhysique("adresse_pp3","nom_pp3","prenom_pp3");
+//            personnePhysiqueRepository.save(pp3);
+//
+//            // Création de types de personnes morales
+//            TypePersonneMorale tpm1=new TypePersonneMorale("SA");
+//            typePersonneMoraleRepository.save(tpm1);
+//            TypePersonneMorale tpm2=new TypePersonneMorale("SARL");
+//            typePersonneMoraleRepository.save(tpm2);
+//            TypePersonneMorale tpm3=new TypePersonneMorale("Auto Entrepreneur");
+//            typePersonneMoraleRepository.save(tpm3);
+//
+//            // Création de personnes morales
+//            PersonneMorale pm1=new PersonneMorale("pm1", "SiRET pm1","raisonsoc pm1", tpm1);
+//            personneMoraleRepository.save(pm1);
+//            PersonneMorale pm2=new PersonneMorale("pm2", "SiRET pm2","raisonsoc pm2", tpm2);
+//            personneMoraleRepository.save(pm2);
+//            PersonneMorale pm3=new PersonneMorale("pm3", "SiRET pm3","raisonsoc pm3", tpm1);
+//            personneMoraleRepository.save(pm3);
+//
+//            // Création de client bancaires
+//            ClientBancaire cb1 =new ClientBancaire();
+//            clientBancaireRepository.save(cb1);
+//            ClientBancaire cb2=new ClientBancaire();
+//            clientBancaireRepository.save(cb2);
+//            ClientBancaire cb3=new ClientBancaire();
+//            clientBancaireRepository.save(cb3);
+//
+//            // Ajout des participants aux clients
+//            pm1=personneMoraleRepository.findById(pm1.getId()).orElseThrow();
+//            cb1.addPersonne(pm1);
+//            clientBancaireRepository.save(cb1);
+//            cb1=clientBancaireRepository.findById(cb1.getId()).orElseThrow();
+//            pp2=personnePhysiqueRepository.findById(pp2.getId()).orElseThrow();
+//            cb1.addPersonne(pp2);
+//            clientBancaireRepository.save(cb1);
+//            pp1=personnePhysiqueRepository.findById(pp1.getId()).orElseThrow();
+//            cb2=clientBancaireRepository.findById(cb2.getId()).orElseThrow();
+//            pp1.addClientBancaire(cb2);
+//            personnePhysiqueRepository.save(pp1);
+//            cb3=clientBancaireRepository.findById(cb3.getId()).orElseThrow();
+//            pp3=personnePhysiqueRepository.findById(pp3.getId()).orElseThrow();
+//            cb3.addPersonne(pp3);
+//            clientBancaireRepository.save(cb3);
+//            System.out.println("***************************************************" +
+//                    "\nLes personnes physiques" +
+//                    "***********************************************************");
+//            System.out.println(personnePhysiqueRepository.findAll());
+//            System.out.println("***************************************************" +
+//                    "\nLes personnes morales" +
+//                    "***********************************************************");
+//            System.out.println(personneMoraleRepository.findAll());
 
-            // Création de produits bancaires
-            tp3= typeProduitRepository.findById(tp3.getId()).orElseThrow();
-            ProduitBancaire pb1 = new ProduitBancaire(3,"num6",tp3);
-            produitBancaireRepository.save(pb1);
-            tp2= typeProduitRepository.findById(tp2.getId()).orElseThrow();
-            ProduitBancaire pb2 = new ProduitBancaire(1,"num4",tp2);
-            produitBancaireRepository.save(pb2);
-            tp3= typeProduitRepository.findById(tp3.getId()).orElseThrow();
-            ProduitBancaire pb3 = new ProduitBancaire(2,"num5",tp3);
-            produitBancaireRepository.save(pb3);
+            // === Types de produits ===
+            TypeProduit tp1 = new TypeProduit(0.0f, "Compte chèque", 15);
+            TypeProduit tp2 = new TypeProduit(0.02f, "Livret A", 0);
+            TypeProduit tp3 = new TypeProduit(0.03f, "Prêt immobilier", 0);
+            typeProduitRepository.saveAll(List.of(tp1, tp2, tp3));
 
-            // Création de personnes physiques
-            PersonnePhysique pp1=new PersonnePhysique("adresse_pp1","nom_pp1","prenom_pp1");
-            personnePhysiqueRepository.save(pp1);
-            PersonnePhysique pp2=new PersonnePhysique("adresse_pp2","nom_pp2","prenom_pp2");
-            personnePhysiqueRepository.save(pp2);
-            PersonnePhysique pp3=new PersonnePhysique("adresse_pp3","nom_pp3","prenom_pp3");
-            personnePhysiqueRepository.save(pp3);
+            // Rechargement
+            tp1 = typeProduitRepository.findById(tp1.getId()).orElseThrow();
+            tp2 = typeProduitRepository.findById(tp2.getId()).orElseThrow();
+            tp3 = typeProduitRepository.findById(tp3.getId()).orElseThrow();
 
-            // Création de types de personnes morales
-            TypePersonneMorale tpm1=new TypePersonneMorale("SA");
-            typePersonneMoraleRepository.save(tpm1);
-            TypePersonneMorale tpm2=new TypePersonneMorale("SARL");
-            typePersonneMoraleRepository.save(tpm2);
-            TypePersonneMorale tpm3=new TypePersonneMorale("Auto Entrepreneur");
-            typePersonneMoraleRepository.save(tpm3);
+            // === Produits bancaires ===
+            ProduitBancaire pb1 = new ProduitBancaire(1000, "FR76-0001", tp1);
+            ProduitBancaire pb2 = new ProduitBancaire(5000, "FR76-0002", tp2);
+            ProduitBancaire pb3 = new ProduitBancaire(-200000, "FR76-0003", tp3);
+            produitBancaireRepository.saveAll(List.of(pb1, pb2, pb3));
 
-            // Création de personnes morales
-            PersonneMorale pm1=new PersonneMorale("pm1", "SiRET pm1","raisonsoc pm1", tpm1);
-            personneMoraleRepository.save(pm1);
-            PersonneMorale pm2=new PersonneMorale("pm2", "SiRET pm2","raisonsoc pm2", tpm2);
-            personneMoraleRepository.save(pm2);
-            PersonneMorale pm3=new PersonneMorale("pm3", "SiRET pm3","raisonsoc pm3", tpm1);
-            personneMoraleRepository.save(pm3);
+            pb1 = produitBancaireRepository.findById(pb1.getId()).orElseThrow();
+            pb2 = produitBancaireRepository.findById(pb2.getId()).orElseThrow();
+            pb3 = produitBancaireRepository.findById(pb3.getId()).orElseThrow();
 
-            // Création de client bancaires
-            ClientBancaire cb1 =new ClientBancaire();
-            clientBancaireRepository.save(cb1);
-            ClientBancaire cb2=new ClientBancaire();
-            clientBancaireRepository.save(cb2);
-            ClientBancaire cb3=new ClientBancaire();
-            clientBancaireRepository.save(cb3);
+            // === Personnes physiques ===
+            PersonnePhysique pp1 = new PersonnePhysique("10 rue des fleurs", "Dupont", "Jean");
+            PersonnePhysique pp2 = new PersonnePhysique("12 rue Victor Hugo", "Martin", "Alice");
+            personnePhysiqueRepository.saveAll(List.of(pp1, pp2));
 
-            // Ajout des participants aux clients
-            pm1=personneMoraleRepository.findById(pm1.getId()).orElseThrow();
+            pp1 = personnePhysiqueRepository.findById(pp1.getId()).orElseThrow();
+            pp2 = personnePhysiqueRepository.findById(pp2.getId()).orElseThrow();
+
+            // === Types de personnes morales ===
+            TypePersonneMorale sa = new TypePersonneMorale("SA");
+            TypePersonneMorale sarl = new TypePersonneMorale("SARL");
+            typePersonneMoraleRepository.saveAll(List.of(sa, sarl));
+
+            sa = typePersonneMoraleRepository.findById(sa.getId()).orElseThrow();
+            sarl = typePersonneMoraleRepository.findById(sarl.getId()).orElseThrow();
+
+            // === Personnes morales ===
+            PersonneMorale pm1 = new PersonneMorale("20 avenue de Paris", "SIRET001", "Boulangerie du coin", sa);
+            PersonneMorale pm2 = new PersonneMorale("30 rue Nationale", "SIRET002", "Menuiserie artisanale", sarl);
+            personneMoraleRepository.saveAll(List.of(pm1, pm2));
+
+            pm1 = personneMoraleRepository.findById(pm1.getId()).orElseThrow();
+            pm2 = personneMoraleRepository.findById(pm2.getId()).orElseThrow();
+
+            // === Clients bancaires ===
+            ClientBancaire cb1 = new ClientBancaire();
+            ClientBancaire cb2 = new ClientBancaire();
+            clientBancaireRepository.saveAll(List.of(cb1, cb2));
+
+            cb1 = clientBancaireRepository.findById(cb1.getId()).orElseThrow();
+            cb2 = clientBancaireRepository.findById(cb2.getId()).orElseThrow();
+
+            // Ajout des personnes aux clients
+            cb1.addPersonne(pp1);
             cb1.addPersonne(pm1);
             clientBancaireRepository.save(cb1);
-            cb1=clientBancaireRepository.findById(cb1.getId()).orElseThrow();
-            pp2=personnePhysiqueRepository.findById(pp2.getId()).orElseThrow();
-            cb1.addPersonne(pp2);
-            clientBancaireRepository.save(cb1);
-            pp1=personnePhysiqueRepository.findById(pp1.getId()).orElseThrow();
-            cb2=clientBancaireRepository.findById(cb2.getId()).orElseThrow();
-            pp1.addClientBancaire(cb2);
-            personnePhysiqueRepository.save(pp1);
-            cb3=clientBancaireRepository.findById(cb3.getId()).orElseThrow();
-            pp3=personnePhysiqueRepository.findById(pp3.getId()).orElseThrow();
-            cb3.addPersonne(pp3);
-            clientBancaireRepository.save(cb3);
-            System.out.println("***************************************************" +
-                    "\nLes personnes physiques" +
-                    "***********************************************************");
-            System.out.println(personnePhysiqueRepository.findAll());
-            System.out.println("***************************************************" +
-                    "\nLes personnes morales" +
-                    "***********************************************************");
-            System.out.println(personneMoraleRepository.findAll());
+
+            cb2.addPersonne(pp2);
+            cb2.addPersonne(pm2);
+            clientBancaireRepository.save(cb2);
+
+            // === Opérations sur pb1 (Compte chèque) ===
+            Operation op1 = new Operation(Date.valueOf("2024-01-10"), -50.0f, "Débit", "Retrait DAB");
+            Operation op2 = new Operation(Date.valueOf("2023-02-05"), 1500.0f, "Crédit", "Virement salaire");
+            Operation op3 = new Operation(Date.valueOf("2023-03-12"), -120.5f, "Débit", "Paiement CB");
+            Operation op4 = new Operation(Date.valueOf("2023-04-01"), -600.0f, "Débit", "Loyer");
+            Operation op5 = new Operation(Date.valueOf("2023-05-20"), -40.0f, "Débit", "Internet");
+            Operation op6 = new Operation(Date.valueOf("2023-06-15"), 75.0f, "Crédit", "Remboursement ami");
+
+            // Associer les opérations au produit bancaire pb1
+            op1.setProduitBancaire(pb1);
+            op2.setProduitBancaire(pb1);
+            op3.setProduitBancaire(pb1);
+            op4.setProduitBancaire(pb1);
+            op5.setProduitBancaire(pb1);
+            op6.setProduitBancaire(pb1);
+
+            operationRepository.saveAll(List.of(op1, op2, op3, op4, op5, op6));
+
+            System.out.println("=== Jeu de données prêt ===");
+            System.out.println("Clients : " + clientBancaireRepository.findAll());
+            System.out.println("Produits bancaires : " + produitBancaireRepository.findAll());
+            System.out.println("Dernières opérations pb1 : " + operationRepository.findTop5ByProduitBancaireIdOrderByDateOperationDesc(pb1.getId()));
         };
+
     }
 }

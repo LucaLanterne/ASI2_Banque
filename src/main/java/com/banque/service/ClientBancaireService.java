@@ -1,6 +1,7 @@
 package com.banque.service;
 
 import com.banque.model.ClientBancaire;
+import com.banque.model.Operation;
 
 import java.util.List;
 

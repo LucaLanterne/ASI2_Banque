@@ -4,25 +4,25 @@ import java.sql.Date;
 
 public class OperationDto {
 
-    private String intituleOperation;
+    private String libelle;
     private float montant;
     private Date dateOperation;
-    private String TypeOperation;
+    private String type;
 
     public OperationDto() {}
-    public OperationDto(String intituleOperation, float montant, Date dateOperation, String TypeOperation) {
-        this.intituleOperation = intituleOperation;
+    public OperationDto(String libelle, float montant, Date dateOperation, String type) {
+        this.libelle = libelle;
         this.montant = montant;
         this.dateOperation = dateOperation;
-        this.TypeOperation = TypeOperation;
+        this.type = type;
     }
 
-    public String getTypeOperation() {
-        return TypeOperation;
+    public String getType() {
+        return type;
     }
 
-    public void setTypeOperation(String typeOperation) {
-        TypeOperation = typeOperation;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Date getDateOperation() {
@@ -41,11 +41,11 @@ public class OperationDto {
         this.montant = montant;
     }
 
-    public String getIntituleOperation() {
-        return intituleOperation;
+    public String getLibelle() {
+        return libelle;
     }
 
-    public void setIntituleOperation(String intituleOperation) {
-        this.intituleOperation = intituleOperation;
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
 }

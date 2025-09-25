@@ -95,7 +95,6 @@ public class ProduitBancaire {
                 ", solde_courant=" + solde_courant +
                 ", numeroCompte='" + numeroCompte + '\'' +
                 ", typeProduit=" + typeProduit +
-                ", operations=" + operations +
                 '}';
     }
 

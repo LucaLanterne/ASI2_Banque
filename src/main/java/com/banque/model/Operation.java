@@ -34,12 +34,11 @@ public class Operation {
 
     public Operation() {}
 
-    public Operation(Date date_operation, float montant, String type, String libelle, ProduitBancaire ProduitBancaire) {
+    public Operation(Date date_operation, float montant, String type, String libelle) {
         this.dateOperation = date_operation;
         this.montant = montant;
         this.type = type;
         this.libelle = libelle;
-        ProduitBancaire.getOperations().add(this);
     }
 
     public Long getId() {

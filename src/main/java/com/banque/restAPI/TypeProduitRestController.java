@@ -79,22 +79,22 @@ public class TypeProduitRestController
         return new ResponseEntity<TypeProduitDto>(typeProduitMapper.toDto(typeProduit), HttpStatus.CREATED);
     }
 
-//    // exemple URL : http://localhost:8080/banque_rest/TypeProduit/update
-//    @PutMapping("/update")
-//    public ResponseEntity<TypeProduit> updateTypeProduit(@RequestBody TypeProduit typeProduit)
-//    {
-//        TypeProduit tp=typeProduitService.updateTypeProduit(typeProduit);
-//        return new ResponseEntity<TypeProduit>(tp, HttpStatus.OK);
-//    }
-    // Version du update qui utilise le mapper et les dtos
+    // exemple URL : http://localhost:8080/banque_rest/TypeProduit/update
     @PutMapping("/update")
-    @ResponseBody
-    public ResponseEntity<TypeProduitDto> updateTypeProduit(@RequestBody TypeProduitDto typeProduitDto)
+    public ResponseEntity<TypeProduit> updateTypeProduit(@RequestBody TypeProduit typeProduit)
     {
-        TypeProduit typeProduit =  typeProduitMapper.toEntity(typeProduitDto);
-        typeProduitService.updateTypeProduit(typeProduit);
-        return new ResponseEntity<TypeProduitDto>(typeProduitMapper.toDto(typeProduit), HttpStatus.OK);
+        TypeProduit tp=typeProduitService.updateTypeProduit(typeProduit);
+        return new ResponseEntity<TypeProduit>(tp, HttpStatus.OK);
     }
+//    // Version du update qui utilise le mapper et les dtos
+//    @PutMapping("/update")
+//    @ResponseBody
+//    public ResponseEntity<TypeProduitDto> updateTypeProduit(@RequestBody TypeProduitDto typeProduitDto)
+//    {
+//        TypeProduit typeProduit =  typeProduitMapper.toEntity(typeProduitDto);
+//        typeProduitService.updateTypeProduit(typeProduit);
+//        return new ResponseEntity<TypeProduitDto>(typeProduitMapper.toDto(typeProduit), HttpStatus.OK);
+//    }
 
     // exemple URL : http://localhost:8080/banque_rest/TypeProduit/delete/2
     @DeleteMapping("/delete/{id}")

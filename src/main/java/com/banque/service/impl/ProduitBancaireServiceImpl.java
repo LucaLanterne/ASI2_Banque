@@ -1,5 +1,6 @@
 package com.banque.service.impl;
 
+import com.banque.model.Operation;
 import com.banque.model.ProduitBancaire;
 import com.banque.repository.ProduitBancaireRepository;
 import com.banque.service.ProduitBancaireService;
@@ -38,5 +39,11 @@ public class ProduitBancaireServiceImpl implements ProduitBancaireService {
     public void deleteProduitBancaireById(Long id) {
         produitBancaireRepository.findById(id).orElseThrow();
         produitBancaireRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Operation> get5DerniereOperationsByProduitId(Long id) {
+
+        return null;
     }
 }

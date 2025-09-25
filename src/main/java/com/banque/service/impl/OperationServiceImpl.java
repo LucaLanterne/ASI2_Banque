@@ -40,4 +40,9 @@ public class OperationServiceImpl implements OperationService {
         operationRepository.findById(id).orElseThrow();
         operationRepository.deleteById(id);
     }
+
+    @Override
+    public List<Operation> get5DerniereOperationsByProduitBancaireId(Long idProduitBancaire) {
+        return operationRepository.findTop5ByProduitBancaireIdOrderByDateOperationDesc(idProduitBancaire);
+    }
 }
