@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,7 +38,7 @@ public class ApplicationMobileRestController
         this.produitBancaireService = produitBancaireService;
     }
 
-    @GetMapping("produit/{produitBancaireId}/operations/last5")
+    @GetMapping("produits/{produitBancaireId}/operations/last5")
     @ResponseBody
     public ResponseEntity<List<OperationDto>> getLast5Operations(@PathVariable("produitBancaireId") long produitBancaireId) {
         List<Operation> operations = operationService.get5DerniereOperationsByProduitBancaireId(produitBancaireId);
@@ -48,4 +51,38 @@ public class ApplicationMobileRestController
         return new ResponseEntity<ProduitBancaireDto>(produitBancaireMapper.toDto(produitBancaire), HttpStatus.OK);
     }
 
+    @GetMapping("/comptes/{id}")
+    public ResponseEntity<ProduitBancaireDto> getProduitBancaire(@PathVariable Long id) {
+        ProduitBancaire produitBancaire = produitBancaireService.getProduitBancaireById(id);
+        return new ResponseEntity<ProduitBancaireDto>(produitBancaireMapper.toDto(produitBancaire), HttpStatus.OK);
+    }
+
+    @PostMapping("/virements/{sourceId}/{destId}/{montant}")
+    public ResponseEntity<List<OperationDto>> makeVirement(@PathVariable long sourceId,
+                                                           @PathVariable long destId, @PathVariable float montant) {
+        ProduitBancaire source = produitBancaireService.getProduitBancaireById(sourceId);
+        ProduitBancaire dest = produitBancaireService.getProduitBancaireById(destId);
+
+        Operation debit = new Operation(new Date(System.currentTimeMillis()), -montant, "Débit", "Virement");
+        debit.setProduitBancaire(source);
+        Operation credit = new Operation(new Date(System.currentTimeMillis()), montant, "Crédit", "Virement");
+        credit.setProduitBancaire(dest);
+
+        List<Operation> operations = new ArrayList<>();
+        operations.add(debit);
+        operations.add(credit);
+        for (Operation operation : operations) {
+            operationService.createOperation(operation);
+        }
+
+        float soldeSource = source.getSolde_courant() - montant;
+        source.setSolde_courant(soldeSource);
+        float soldeDest = dest.getSolde_courant() + montant;
+        dest.setSolde_courant(soldeDest);
+
+        produitBancaireService.updateProduitBancaire(source);
+        produitBancaireService.updateProduitBancaire(dest);
+
+        return new ResponseEntity<List<OperationDto>>(operationMapper.toDtoList(operations), HttpStatus.OK);
+    }
 }
