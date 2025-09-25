@@ -317,20 +317,27 @@ public class BanqueApplication
 //            System.out.println(personneMoraleRepository.findAll());
 
             // === Types de produits ===
-            TypeProduit tp1 = new TypeProduit(0.0f, "Compte chèque", 15);
-            TypeProduit tp2 = new TypeProduit(0.02f, "Livret A", 0);
-            TypeProduit tp3 = new TypeProduit(0.03f, "Prêt immobilier", 0);
-            typeProduitRepository.saveAll(List.of(tp1, tp2, tp3));
+            TypeProduit compteCheque = new TypeProduit(0.0f, "Compte chèque", 15f);
+            TypeProduit livretA = new TypeProduit(0.02f, "Livret A", 0f);
+            TypeProduit pretImmo = new TypeProduit(0.03f, "Prêt immobilier", 0f);
+            typeProduitRepository.saveAll(List.of(compteCheque, livretA, pretImmo));
 
-            // Rechargement
-            tp1 = typeProduitRepository.findById(tp1.getId()).orElseThrow();
-            tp2 = typeProduitRepository.findById(tp2.getId()).orElseThrow();
-            tp3 = typeProduitRepository.findById(tp3.getId()).orElseThrow();
+            compteCheque = typeProduitRepository.findById(compteCheque.getId()).orElseThrow();
+            livretA = typeProduitRepository.findById(livretA.getId()).orElseThrow();
+            pretImmo = typeProduitRepository.findById(pretImmo.getId()).orElseThrow();
 
-            // === Produits bancaires ===
-            ProduitBancaire pb1 = new ProduitBancaire(1000, "FR76-0001", tp1);
-            ProduitBancaire pb2 = new ProduitBancaire(5000, "FR76-0002", tp2);
-            ProduitBancaire pb3 = new ProduitBancaire(-200000, "FR76-0003", tp3);
+            // === Clients bancaires ===
+            ClientBancaire cb1 = new ClientBancaire();
+            ClientBancaire cb2 = new ClientBancaire();
+            clientBancaireRepository.saveAll(List.of(cb1, cb2));
+
+            cb1 = clientBancaireRepository.findById(cb1.getId()).orElseThrow();
+            cb2 = clientBancaireRepository.findById(cb2.getId()).orElseThrow();
+
+            // === Produits bancaires rattachés aux clients ===
+            ProduitBancaire pb1 = new ProduitBancaire(1000f, "FR76-0001", compteCheque, cb1);
+            ProduitBancaire pb2 = new ProduitBancaire(5000f, "FR76-0002", livretA, cb1);
+            ProduitBancaire pb3 = new ProduitBancaire(-200000f, "FR76-0003", pretImmo, cb2);
             produitBancaireRepository.saveAll(List.of(pb1, pb2, pb3));
 
             pb1 = produitBancaireRepository.findById(pb1.getId()).orElseThrow();
@@ -354,22 +361,14 @@ public class BanqueApplication
             sarl = typePersonneMoraleRepository.findById(sarl.getId()).orElseThrow();
 
             // === Personnes morales ===
-            PersonneMorale pm1 = new PersonneMorale("20 avenue de Paris", "SIRET001", "Boulangerie du coin", sa);
+            PersonneMorale pm1 = new PersonneMorale("20 avenue Paris", "SIRET001", "Boulangerie du coin", sa);
             PersonneMorale pm2 = new PersonneMorale("30 rue Nationale", "SIRET002", "Menuiserie artisanale", sarl);
             personneMoraleRepository.saveAll(List.of(pm1, pm2));
 
             pm1 = personneMoraleRepository.findById(pm1.getId()).orElseThrow();
             pm2 = personneMoraleRepository.findById(pm2.getId()).orElseThrow();
 
-            // === Clients bancaires ===
-            ClientBancaire cb1 = new ClientBancaire();
-            ClientBancaire cb2 = new ClientBancaire();
-            clientBancaireRepository.saveAll(List.of(cb1, cb2));
-
-            cb1 = clientBancaireRepository.findById(cb1.getId()).orElseThrow();
-            cb2 = clientBancaireRepository.findById(cb2.getId()).orElseThrow();
-
-            // Ajout des personnes aux clients
+            // === Association personnes ↔ clients ===
             cb1.addPersonne(pp1);
             cb1.addPersonne(pm1);
             clientBancaireRepository.save(cb1);
@@ -378,15 +377,14 @@ public class BanqueApplication
             cb2.addPersonne(pm2);
             clientBancaireRepository.save(cb2);
 
-            // === Opérations sur pb1 (Compte chèque) ===
-            Operation op1 = new Operation(Date.valueOf("2024-01-10"), -50.0f, "Débit", "Retrait DAB");
+            // === Opérations sur pb1 ===
+            Operation op1 = new Operation(Date.valueOf("2023-01-10"), -50.0f, "Débit", "Retrait DAB");
             Operation op2 = new Operation(Date.valueOf("2023-02-05"), 1500.0f, "Crédit", "Virement salaire");
             Operation op3 = new Operation(Date.valueOf("2023-03-12"), -120.5f, "Débit", "Paiement CB");
             Operation op4 = new Operation(Date.valueOf("2023-04-01"), -600.0f, "Débit", "Loyer");
             Operation op5 = new Operation(Date.valueOf("2023-05-20"), -40.0f, "Débit", "Internet");
             Operation op6 = new Operation(Date.valueOf("2023-06-15"), 75.0f, "Crédit", "Remboursement ami");
 
-            // Associer les opérations au produit bancaire pb1
             op1.setProduitBancaire(pb1);
             op2.setProduitBancaire(pb1);
             op3.setProduitBancaire(pb1);
@@ -396,11 +394,11 @@ public class BanqueApplication
 
             operationRepository.saveAll(List.of(op1, op2, op3, op4, op5, op6));
 
-            System.out.println("=== Jeu de données prêt ===");
+            System.out.println("=== Jeu de données initialisé ===");
             System.out.println("Clients : " + clientBancaireRepository.findAll());
-            System.out.println("Produits bancaires : " + produitBancaireRepository.findAll());
-            System.out.println("Dernières opérations pb1 : " + operationRepository.findTop5ByProduitBancaireIdOrderByDateOperationDesc(pb1.getId()));
+            System.out.println("Produits : " + produitBancaireRepository.findAll());
+            System.out.println("5 dernières opérations du compte chèque : " +
+                    operationRepository.findTop5ByProduitBancaireIdOrderByDateOperationDesc(pb1.getId()));
         };
-
     }
 }

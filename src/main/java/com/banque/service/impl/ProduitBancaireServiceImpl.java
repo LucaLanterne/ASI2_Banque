@@ -42,8 +42,7 @@ public class ProduitBancaireServiceImpl implements ProduitBancaireService {
     }
 
     @Override
-    public List<Operation> get5DerniereOperationsByProduitId(Long id) {
-
-        return null;
+    public ProduitBancaire getCompteChequeById(Long id) {
+        return produitBancaireRepository.findByIdAndTypeProduitIntitule(id, "Compte chèque");
     }
 }

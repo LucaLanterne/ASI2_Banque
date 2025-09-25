@@ -19,7 +19,6 @@ public class ProduitBancaireMapper
     private final ClientBancaireMapper clientBancaireMapper;
     private final OperationMapper operationMapper;
 
-    @Autowired
     public ProduitBancaireMapper(TypeProduitMapper typeProduitMapper,
                                  ClientBancaireMapper clientBancaireMapper,
                                  OperationMapper operationMapper) {

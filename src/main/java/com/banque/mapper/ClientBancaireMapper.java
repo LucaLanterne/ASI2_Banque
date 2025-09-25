@@ -5,16 +5,23 @@ import com.banque.dataTransfertObjects.PersonneDto;
 import com.banque.model.ClientBancaire;
 import com.banque.model.Personne;
 import com.banque.model.PersonneMorale;
-import com.banque.model.TypePersonneMorale;
 import com.banque.repository.PersonneMoraleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ClientBancaireMapper
 {
-    private PersonneMapper personneMapper;
-    private PersonneMoraleRepository personneMoraleRepository;
+    private final PersonneMapper personneMapper;
+    private final PersonneMoraleRepository personneMoraleRepository;
+
+    public ClientBancaireMapper(PersonneMapper personneMapper,  PersonneMoraleRepository personneMoraleRepository) {
+        this.personneMapper = personneMapper;
+        this.personneMoraleRepository = personneMoraleRepository;
+    }
 
     public ClientBancaireDto toDto (ClientBancaire clientBancaire) {
         List<Personne> personnes = clientBancaire.getPersonnes();

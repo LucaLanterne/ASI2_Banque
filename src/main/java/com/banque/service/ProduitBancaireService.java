@@ -11,5 +11,5 @@ public interface ProduitBancaireService {
     public ProduitBancaire getProduitBancaireById(Long id);
     public ProduitBancaire updateProduitBancaire(ProduitBancaire produitBancaire);
     public void deleteProduitBancaireById(Long id);
-    public List<Operation> get5DerniereOperationsByProduitId(Long id);
+    public ProduitBancaire getCompteChequeById(Long id);
 }
