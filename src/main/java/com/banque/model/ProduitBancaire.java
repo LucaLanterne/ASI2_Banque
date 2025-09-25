@@ -29,11 +29,16 @@ public class ProduitBancaire {
     @OneToMany(mappedBy = "produitBancaire", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Operation> operations=new ArrayList<>();
 
-    public ProduitBancaire(float solde_courant, String numeroCompte, TypeProduit TypeProduit) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_bancaire_id")
+    private ClientBancaire clientBancaire;
+
+    public ProduitBancaire(float solde_courant, String numeroCompte, TypeProduit typeProduit,  ClientBancaire clientBancaire) {
         this.solde_courant = solde_courant;
         this.numeroCompte = numeroCompte;
-        this.typeProduit = TypeProduit;
-        TypeProduit.getProduitsBancaires().add(this);
+        this.typeProduit = typeProduit;
+        typeProduit.getProduitsBancaires().add(this);
+        this.clientBancaire = clientBancaire;
     }
     public ProduitBancaire() {
     }
@@ -60,6 +65,12 @@ public class ProduitBancaire {
     }
     public void setNumeroCompte(String numeroCompte) {
         this.numeroCompte = numeroCompte;
+    }
+    public ClientBancaire getClientBancaire() {
+        return clientBancaire;
+    }
+    public void setClientBancaire(ClientBancaire clientBancaire) {
+        this.clientBancaire = clientBancaire;
     }
     public List<Operation> getOperations() {
         return operations;

@@ -8,7 +8,8 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 
-@Entity
+@Entity(name="ClientBancaire")
+@Table(name="client_bancaire")
 public class ClientBancaire {
     @Id
     @SequenceGenerator( name = "client_bancaire_sequence", sequenceName = "client_bancaire_sequence", allocationSize = 1)
@@ -26,6 +27,9 @@ public class ClientBancaire {
             inverseJoinColumns = { @JoinColumn(name = "personne_id") })
     private List<Personne> personnes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "clientBancaire", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private List<ProduitBancaire> produitBancaires=new ArrayList<>();
+
     public ClientBancaire() {}
 
     public Long getId() {
@@ -33,6 +37,18 @@ public class ClientBancaire {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public List<ProduitBancaire> getProduitBancaires() {
+        return produitBancaires;
+    }
+    public void setProduitBancaires(List<ProduitBancaire> produitBancaires) {
+        this.produitBancaires = produitBancaires;
+    }
+    public void addProduitBancaire(ProduitBancaire produitBancaire) {
+        this.produitBancaires.add(produitBancaire);
+    }
+    public void removeProduitBancaire(ProduitBancaire produitBancaire) {
+        this.produitBancaires.remove(produitBancaire);
     }
     public List<Personne> getPersonnes() {
         return personnes;

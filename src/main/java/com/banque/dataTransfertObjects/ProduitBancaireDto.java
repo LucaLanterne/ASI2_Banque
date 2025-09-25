@@ -1,6 +1,6 @@
 package com.banque.dataTransfertObjects;
 
-import java.util.Set;
+import java.util.List;
 
 public class ProduitBancaireDto {
 
@@ -8,11 +8,11 @@ public class ProduitBancaireDto {
     private TypeProduitDto typeProduitDto;
     private ClientBancaireDto clientBancaireDto;
     private String numeroCompte;
-    private Set<OperationDto> operationDtos;
+    private List<OperationDto> operationDtos;
 
     public ProduitBancaireDto() {}
     public ProduitBancaireDto(String numeroCompte, float soldeCourant, TypeProduitDto typeProduitDto,
-                              ClientBancaireDto clientBancaireDto, Set<OperationDto> operationDtos) {
+                              ClientBancaireDto clientBancaireDto, List<OperationDto> operationDtos) {
         this.numeroCompte = numeroCompte;
         this.soldeCourant = soldeCourant;
         this.typeProduitDto = typeProduitDto;
@@ -52,11 +52,11 @@ public class ProduitBancaireDto {
         this.numeroCompte = numeroCompte;
     }
 
-    public Set<OperationDto> getOperationDtos() {
+    public List<OperationDto> getOperationDtos() {
         return operationDtos;
     }
 
-    public void setOperationDtos(Set<OperationDto> operationDtos) {
+    public void setOperationDtos(List<OperationDto> operationDtos) {
         this.operationDtos = operationDtos;
     }
 }

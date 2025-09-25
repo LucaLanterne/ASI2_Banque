@@ -1,17 +1,18 @@
 package com.banque.dataTransfertObjects;
 
+import java.util.List;
 import java.util.Set;
 
 public class ClientBancaireDto {
 
-    private Set<PersonneDto> personneDtos;
+    private List<PersonneDto> personneDtos;
 
     public ClientBancaireDto() {}
-    public ClientBancaireDto(Set<PersonneDto> personneDtos) {
+    public ClientBancaireDto(List<PersonneDto> personneDtos) {
         this.personneDtos = personneDtos;
     }
 
-    public Set<PersonneDto> getPersonneDtos() {
+    public List<PersonneDto> getPersonneDtos() {
         return personneDtos;
     }
 
