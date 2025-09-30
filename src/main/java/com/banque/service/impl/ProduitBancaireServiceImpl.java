@@ -1,6 +1,5 @@
 package com.banque.service.impl;
 
-import com.banque.model.Operation;
 import com.banque.model.ProduitBancaire;
 import com.banque.repository.ProduitBancaireRepository;
 import com.banque.service.ProduitBancaireService;
@@ -44,5 +43,15 @@ public class ProduitBancaireServiceImpl implements ProduitBancaireService {
     @Override
     public ProduitBancaire getCompteChequeById(Long id) {
         return produitBancaireRepository.findByIdAndTypeProduitIntitule(id, "Compte chèque");
+    }
+
+    @Override
+    public List<ProduitBancaire> getProduitBancaireByNumeroCompteStartsWithIgnoreCase(String numeroComptePartiel) {
+        return produitBancaireRepository.findByNumeroCompteStartsWithIgnoreCase(numeroComptePartiel);
+    }
+
+    @Override
+    public ProduitBancaire findFirstByNumeroCompteIgnoreCase(String numeroCompte) {
+        return produitBancaireRepository.findFirstByNumeroCompteIgnoreCase(numeroCompte);
     }
 }

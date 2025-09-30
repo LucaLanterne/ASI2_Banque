@@ -11,4 +11,5 @@ public interface OperationService {
     public Operation updateOperation(Operation operation);
     public void deleteOperationById(Long id);
     public List<Operation> get5DerniereOperationsByProduitBancaireId(Long idProduitBancaire);
+    public List<Operation> findAllByProduitBancaireIdOrderByDateOperationDesc(Long idProduitBancaire);
 }

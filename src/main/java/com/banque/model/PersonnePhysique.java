@@ -23,6 +23,11 @@ public class PersonnePhysique extends Personne {
         this.prenom = prenom;
     }
 
+    @Override
+    public String nomComplet() {
+        return prenom + " " + nom;
+    }
+
     public String getNom() {
         return nom;
     }

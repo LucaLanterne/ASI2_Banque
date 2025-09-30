@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
     List<Operation> findTop5ByProduitBancaireIdOrderByDateOperationDesc(Long idProduitBancaire);
+
+    List<Operation> findAllByProduitBancaireIdOrderByDateOperationDesc(Long produitBancaireId);
 }

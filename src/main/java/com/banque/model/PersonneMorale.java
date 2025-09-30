@@ -28,6 +28,11 @@ public class PersonneMorale extends Personne {
         typePersonneMorale.getPersonnesMorales().add(this);
     }
 
+    @Override
+    public String nomComplet() {
+        return raisonSociale;
+    }
+
     public TypePersonneMorale getTypePersonneMorale() {
         return typePersonneMorale;
     }
@@ -88,7 +93,4 @@ public class PersonneMorale extends Personne {
         return Objects.hash(id);
     }
 
-    public String nomComplet() {
-        return raisonSociale;
-    }
 }

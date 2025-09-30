@@ -18,10 +18,6 @@ public class PersonneDto {
 
     protected void init(String nom){}
 
-    public String nomComplet(){
-        return nom;
-    }
-
     public String getNom() {
         return nom;
     }

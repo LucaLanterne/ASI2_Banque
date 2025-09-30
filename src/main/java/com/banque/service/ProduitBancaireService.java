@@ -12,4 +12,6 @@ public interface ProduitBancaireService {
     public ProduitBancaire updateProduitBancaire(ProduitBancaire produitBancaire);
     public void deleteProduitBancaireById(Long id);
     public ProduitBancaire getCompteChequeById(Long id);
+    public List<ProduitBancaire> getProduitBancaireByNumeroCompteStartsWithIgnoreCase(String numeroComptePartiel);
+    public ProduitBancaire findFirstByNumeroCompteIgnoreCase(String numeroCompte);
 }

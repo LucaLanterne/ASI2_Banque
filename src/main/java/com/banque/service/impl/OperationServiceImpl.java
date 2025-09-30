@@ -45,4 +45,9 @@ public class OperationServiceImpl implements OperationService {
     public List<Operation> get5DerniereOperationsByProduitBancaireId(Long idProduitBancaire) {
         return operationRepository.findTop5ByProduitBancaireIdOrderByDateOperationDesc(idProduitBancaire);
     }
+
+    @Override
+    public List<Operation> findAllByProduitBancaireIdOrderByDateOperationDesc(Long idProduitBancaire) {
+        return operationRepository.findAllByProduitBancaireIdOrderByDateOperationDesc(idProduitBancaire);
+    }
 }
