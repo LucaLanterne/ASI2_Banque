@@ -53,16 +53,25 @@ public class ClientBancaireController {
     }
 
     @PostMapping("/clientBancaire/save/")
-    public String saveClientBancaire(@ModelAttribute ClientBancaire clientBancaire,
-                                     @RequestParam("personnesIds") List<Long> PersonnesIds, Model model) {
+    public String editClientBancaire(@ModelAttribute("clientBancaire") ClientBancaire clientBancaire,
+                                     @RequestParam("personnesIds") List<Long> personnesIds) {
         List<Personne> personnes = new ArrayList<>();
-        for (Long id : PersonnesIds) {
-            Personne p = personneMoraleService.getPersonneMoraleById(id);
-            if (p == null) {
-                p = personnePhysiqueService.getPersonnePhysiqueById(id);
+        for (Long id : personnesIds) {
+            Personne personne = null;
+            try {
+                // Essai en personne physique
+                PersonnePhysique pp = personnePhysiqueService.getPersonnePhysiqueById(id);
+                if (pp != null) personne = pp;
+            } catch (Exception ignored) {}
+            if (personne == null) {
+                try {
+                    // Essai en personne morale
+                    PersonneMorale pm = personneMoraleService.getPersonneMoraleById(id);
+                    if (pm != null) personne = pm;
+                } catch (Exception ignored) {}
             }
-            if (p != null) {
-                personnes.add(p);
+            if (personne != null) {
+                personnes.add(personne);
             }
         }
         clientBancaire.setPersonnes(personnes);

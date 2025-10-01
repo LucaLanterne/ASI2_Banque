@@ -50,7 +50,7 @@ public class ProduitBancaireController {
     @PostMapping("/produitBancaire/save/")
     public String editProduitBancaire(@ModelAttribute("produitBancaire") ProduitBancaire produitBancaire,
                                       @RequestParam("clientBancaireId") Long clientBancaireId,
-                                      @RequestParam("typeBancaireId") Long typeProduitId, Model model) {
+                                      @RequestParam("typeProduitId") Long typeProduitId, Model model) {
         produitBancaire.setClientBancaire(clientBancaireService.getClientBancaireById(clientBancaireId));
         produitBancaire.setTypeProduit(typeProduitService.getTypeProduitById(typeProduitId));
         produitBancaireService.updateProduitBancaire(produitBancaire);
