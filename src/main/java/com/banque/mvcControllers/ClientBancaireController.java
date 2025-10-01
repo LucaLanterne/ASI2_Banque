@@ -54,7 +54,7 @@ public class ClientBancaireController {
 
     @PostMapping("/clientBancaire/save/")
     public String saveClientBancaire(@ModelAttribute ClientBancaire clientBancaire,
-                                     @RequestParam List<Long> PersonnesIds, Model model) {
+                                     @RequestParam("personnesIds") List<Long> PersonnesIds, Model model) {
         List<Personne> personnes = new ArrayList<>();
         for (Long id : PersonnesIds) {
             Personne p = personneMoraleService.getPersonneMoraleById(id);

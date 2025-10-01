@@ -29,8 +29,10 @@
                     <div class="form-group">
                         <label for="select_clientBancaire">Choisir un client bancaire</label>
                         <select
-                            th:value="${clientBancaireId}" name="clientBancaireId" id="select_clientBancaire"
-                            class="form-control" required>
+                            name="clientBancaireId"
+                            id="select_clientBancaire"
+                            class="form-control"
+                            required>
                             <option value=""> - Choisissez un client bancaire -</option>
                             <th:block th:each="cb:${listeClientsBancaires}">
                                 <option th:text="${#strings.arrayJoin(cb.getPersonnes().![nomComplet()], ' - ')}"
@@ -42,11 +44,13 @@
                     <div class="form-group">
                         <label for="select_typeProduit">Choisir un type de produit</label>
                         <select
-                                th:value="${TypeProduitId}" name="typeProduitId" id="select_typeProduit"
-                                class="form-control" required>
+                                name="typeProduitId"
+                                id="select_typeProduit"
+                                class="form-control"
+                                required>
                             <option value=""> - Choisissez un type de produit -</option>
                             <th:block th:each="tp:${listeTypesProduits}">
-                                <option th:text="${tp.getIntitule()}"
+                                <option th:text="${tp.intitule}"
                                         th:value="${tp.id}"
                                         th:selected="${produitBancaire.typeProduit != null and tp.id == produitBancaire.typeProduit.id}"/>
                             </th:block>
