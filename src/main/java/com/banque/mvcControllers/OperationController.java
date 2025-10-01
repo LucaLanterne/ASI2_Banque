@@ -16,8 +16,8 @@ import java.util.List;
 
 @Controller
 public class OperationController {
-    private OperationService operationService;
-    private ProduitBancaireService produitBancaireService;
+    private final OperationService operationService;
+    private final ProduitBancaireService produitBancaireService;
     private ProduitBancaire produitBancaire;
     private List<ProduitBancaire> listeProduitsBancaires;
     private List<Operation> listeOperations;

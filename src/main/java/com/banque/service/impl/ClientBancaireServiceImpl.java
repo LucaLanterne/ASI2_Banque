@@ -2,6 +2,7 @@ package com.banque.service.impl;
 
 import com.banque.model.ClientBancaire;
 import com.banque.model.Operation;
+import com.banque.model.ProduitBancaire;
 import com.banque.repository.ClientBancaireRepository;
 import com.banque.service.ClientBancaireService;
 import org.springframework.beans.factory.annotation.Autowired;
