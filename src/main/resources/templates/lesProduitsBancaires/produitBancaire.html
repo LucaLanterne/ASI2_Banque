@@ -26,13 +26,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="tp : ${listeProduitsBancaires}">
-                <td th:text="${tp.getNumeroCompte()}"></td>
-                <td th:text="${tp.getTypeProduit().getIntitule()}"></td>
-                <td th:text="${tp.getClientBancaire().getId()}"></td>
-                <td th:text="${tp.getSolde_courant()}"></td>
-                <td><a class="btn btn-primary" th:href="@{produitBancaire/edit/{id}(id=${tp.id})}">Modifier</a><a
-                        class="btn btn-danger" th:href="@{produitBancaire/delete/{id}(id=${tp.id})}">Supprimer</a>
+            <tr th:each="pb : ${listeProduitsBancaires}">
+                <td th:text="${pb.getNumeroCompte()}"></td>
+                <td th:text="${pb.getTypeProduit().getIntitule()}"></td>
+                <td th:text="${pb.getClientBancaire().getId()}"></td>
+                <td th:text="${pb.getSolde_courant()}"></td>
+                <td><a class="btn btn-primary" th:href="@{produitBancaire/edit/{id}(id=${pb.id})}">Modifier</a>
+                    <a class="btn btn-danger btn-sm"
+                       th:href="@{/produitBancaire/delete/{id}(id=${pb.id})}"
+                       onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
                 </td>
             </tr>
             </tbody>

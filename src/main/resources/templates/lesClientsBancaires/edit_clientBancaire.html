@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Édition client bancaire</title>
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet">
+</head>
+<body>
+<div th:insert="~{Common/menu_bar :: menubar}"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2 card mt-4">
+            <h1 class="text-center" th:if="${clientBancaire.id != null}">
+                Modification d’un client bancaire
+            </h1>
+            <h1 class="text-center" th:unless="${clientBancaire.id != null}">
+                Création d’un client bancaire
+            </h1>
+
+            <div class="card-body">
+                <form th:action="@{/clientBancaire/save/}"
+                      th:object="${clientBancaire}"
+                      method="POST">
+
+                    <!-- Sélection des personnes -->
+                    <div class="form-group">
+                        <label for="select_personnes">Sélectionner des personnes</label>
+                        <select multiple
+                                class="form-control"
+                                id="select_personnes"
+                                name="PersonnesIds"
+                                required>
+                            <option th:each="p : ${listePersonnes}"
+                                    th:value="${p.id}"
+                                    th:selected="${clientBancaire.personnes.contains(p)}"
+                                    th:text="${p.nomComplet()}">
+                            </option>
+                        </select>
+                        <small class="form-text text-muted">
+                            Maintenez CTRL (ou CMD sur Mac) pour sélectionner plusieurs personnes.
+                        </small>
+                    </div>
+
+                    <!-- Produits bancaires (affichage simple, non éditable ici) -->
+                    <div class="form-group" th:if="${clientBancaire.id != null}">
+                        <label>Produits bancaires associés</label>
+                        <ul>
+                            <li th:each="pb : ${clientBancaire.produitBancaires}"
+                                th:text="${pb.numeroCompte} + ' (' + ${pb.typeProduit.intitule} + ')'">
+                            </li>
+                        </ul>
+                        <small class="form-text text-muted">
+                            Les produits bancaires se gèrent depuis leur propre section.
+                        </small>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="box-footer">
+                        <input type="hidden" th:field="*{id}" id="id"/>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a th:href="@{/clientBancaire}" class="btn btn-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

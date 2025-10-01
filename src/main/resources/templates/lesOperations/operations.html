@@ -82,7 +82,9 @@
                     <td>
                         <a th:href="@{/operation/details/{id}(id=${op.id})}" class="btn btn-primary">Détails</a>
                         <a th:href="@{/operation/edit/{id}(id=${op.id})}" class="btn btn-primary">Modifier</a>
-                        <a th:href="@{/operation/delete/{id}(id=${op.id})}" class="btn btn-danger">Supprimer</a>
+                        <a class="btn btn-danger btn-sm"
+                           th:href="@{/operation/delete/{id}(id=${op.id})}"
+                           onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
                     </td>
                 </tr>
                 </tbody>

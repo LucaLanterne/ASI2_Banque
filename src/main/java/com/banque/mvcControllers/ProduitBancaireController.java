@@ -16,7 +16,6 @@ public class ProduitBancaireController {
     private final TypeProduitService typeProduitService;
     private final ClientBancaireService clientBancaireService;
 
-
     @Autowired
     public ProduitBancaireController(ProduitBancaireService produitBancaireService,
                                      ClientBancaireService clientBancaireService,
@@ -39,9 +38,6 @@ public class ProduitBancaireController {
             pb = new ProduitBancaire();
             int n = produitBancaireService.getAllProduitsBancaires().size()+1;
             pb.setNumeroCompte("FR76-000" + n);
-            System.out.println("********************************************************\n" +
-                    pb.getNumeroCompte() + "\n" +
-                    "********************************************************\n");
         } else {
             pb = produitBancaireService.getProduitBancaireById(id);
         }
