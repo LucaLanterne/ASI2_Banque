@@ -5,67 +5,82 @@ import com.banque.service.TypeProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * Contrôleur MVC pour gérer les types de produits bancaires.
+ * Fournit les fonctionnalités d'affichage, création, modification et suppression des types de produits.
+ */
 @Controller
 public class TypeProduitController {
+
     private final TypeProduitService typeProduitService;
 
+    /**
+     * Constructeur du contrôleur TypeProduitController.
+     * Permet l'injection du service nécessaire pour gérer les types de produits.
+     *
+     * @param typeProduitService service pour les opérations sur les types de produits
+     */
     @Autowired
     public TypeProduitController(TypeProduitService typeProduitService) {
         this.typeProduitService = typeProduitService;
     }
 
+    /**
+     * Affiche la liste de tous les types de produits.
+     * Mapping GET sur /typeProduit. La vue "typesProduits" reçoit la liste des types.
+     *
+     * @param model modèle pour passer les données à la vue
+     * @return template "lesTypesProduits/typesProduits"
+     */
     @GetMapping("/typeProduit")
-    public String listTypesProduits(Model model)
-    {
+    public String listTypesProduits(Model model) {
         model.addAttribute("listeTypesProduits", typeProduitService.getAllTypesProduits());
         return "lesTypesProduits/typesProduits";
     }
 
-    // Ajout et modification de types de produits
-    // On définit donc deux routes. Une route sans paramètre pour la création de types de produits.
-    // Et une route qui passe l'id du type des produits à modifier.
-    // On en profite pour indiquer que le paramètre Long id peut être null (dans le cas de la création).
-    @GetMapping(value={"/typeProduit/edit", "/typeProduit/edit/{id}"})
-    public String editTypeProduitForm(@PathVariable(required = false) Long id, Model model)
-    {
-        TypeProduit tp;
-        if (id==null)
-        {
-            // Si on n'a pas récupéré d'attribut id de la page HTML c'est que le client souhaite
-            // créer un nouveau type de produit.
-            tp=new TypeProduit();
-        }
-        else {
-            // On récupère l'id du type de produit qui est passée dans l'URL
-            // On poste l'objet typeProduit pour cet id à la page edit_typeProduit.
-            tp=typeProduitService.getTypeProduitById(id);
-        }
-        // On ajoute tp au modèle de la page.
-        // On pourra accéder à une variable de nom typeProduit depuis le template HTML
+    /**
+     * Affiche le formulaire pour créer ou éditer un type de produit.
+     * Mapping GET sur /typeProduit/edit ou /typeProduit/edit/{id}.
+     * Si l'id est présent, récupère le type existant, sinon crée un nouveau type vide.
+     *
+     * @param id    identifiant du type de produit (optionnel)
+     * @param model modèle pour passer le type de produit à la vue
+     * @return template "lesTypesProduits/edit_typeProduit"
+     */
+    @GetMapping(value = {"/typeProduit/edit", "/typeProduit/edit/{id}"})
+    public String editTypeProduitForm(@PathVariable(required = false) Long id, Model model) {
+        TypeProduit tp = (id == null) ? new TypeProduit() : typeProduitService.getTypeProduitById(id);
         model.addAttribute("typeProduit", tp);
-        // On appelle de moteur de template pour la construction de la page suivante
-        // qui va afficher les champs à créer/modifier pour les types de produits.
-        // Nous indiquons ici le chemin vers le template à charger.
         return "lesTypesProduits/edit_typeProduit";
     }
 
-    // Route appelée depuis la page edit_typeProduit.html.
-    // C'est une route sans paramètre.
+    /**
+     * Sauvegarde ou met à jour un type de produit.
+     * Mapping POST sur /typeProduit/save/.
+     * Redirige vers la liste des types après sauvegarde.
+     *
+     * @param typeProduit type de produit envoyé par le formulaire
+     * @param model modèle pour la vue
+     * @return redirection vers /typeProduit
+     */
     @PostMapping("/typeProduit/save/")
-    public String editTypeProduit(@ModelAttribute("typeProduit") TypeProduit typeProduit, Model model)
-    {
+    public String editTypeProduit(@ModelAttribute("typeProduit") TypeProduit typeProduit, Model model) {
         typeProduitService.updateTypeProduit(typeProduit);
         return "redirect:/typeProduit";
     }
 
+    /**
+     * Supprime un type de produit selon son identifiant.
+     * Mapping GET sur /typeProduit/delete/{id}.
+     * Redirection vers la liste des types après suppression.
+     *
+     * @param id identifiant du type de produit à supprimer
+     * @return redirection vers /typeProduit
+     */
     @GetMapping("/typeProduit/delete/{id}")
-    public String deleteTypeProduit(@PathVariable Long id)
-    {
+    public String deleteTypeProduit(@PathVariable Long id) {
         typeProduitService.deleteTypeProduitById(id);
         return "redirect:/typeProduit";
     }

@@ -50,6 +50,8 @@ public class PersonneDto {
      */
     protected void init(String nom) {}
 
+    // ------------------- Getters & Setters -------------------
+
     /**
      * Retourne le nom de la personne.
      *

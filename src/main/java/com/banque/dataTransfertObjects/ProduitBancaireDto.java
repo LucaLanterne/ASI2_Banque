@@ -52,6 +52,8 @@ public class ProduitBancaireDto {
         this.operationDtos = operationDtos;
     }
 
+    // ------------------- Getters & Setters -------------------
+
     /**
      * Retourne le solde courant.
      *

@@ -33,6 +33,8 @@ public class ClientBancaireDto {
         this.personneDtos = (personneDtos != null) ? personneDtos : new ArrayList<>();
     }
 
+    // ------------------- Getters & Setters -------------------
+
     /**
      * Retourne la liste des personnes associées à ce client bancaire.
      *

@@ -39,6 +39,8 @@ public class TypeProduitDto {
         this.intitule = intitule;
     }
 
+    // ------------------- Getters & Setters -------------------
+
     /**
      * Retourne la cotisation de la carte bancaire.
      *
