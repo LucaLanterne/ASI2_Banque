@@ -3,17 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+
+    <!-- Inclusion de Bootstrap pour le style et la mise en page -->
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet">
 </head>
 <body>
+
+<!-- Insertion de la barre de navigation commune -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
+
 <div class="container">
-    <div class="row pt-3 pb-3"><h1>Liste des produits bancaires</h1></div>
-    <div class="row">
-        <div class="col-lg-3"><a class="btn btn-primary btn-sm mb-3" th:href="@{/produitBancaire/edit}">Ajouter des
-            produits bancaires</a></div>
+
+    <!-- Titre principal -->
+    <div class="row pt-3 pb-3">
+        <h1>Liste des produits bancaires</h1>
     </div>
+
+    <!-- Bouton d'ajout d'un nouveau produit bancaire -->
+    <div class="row">
+        <div class="col-lg-3">
+            <a class="btn btn-primary btn-sm mb-3" th:href="@{/produitBancaire/edit}">
+                Ajouter des produits bancaires
+            </a>
+        </div>
+    </div>
+
+    <!-- Tableau listant les produits bancaires -->
     <div class="row">
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
@@ -26,17 +44,42 @@
             </tr>
             </thead>
             <tbody>
+
+            <!-- Boucle Thymeleaf pour parcourir la liste des produits bancaires -->
             <tr th:each="pb : ${listeProduitsBancaires}">
+                <!-- Affiche le numéro de compte -->
                 <td th:text="${pb.getNumeroCompte()}"></td>
+
+                <!-- Affiche le type de produit -->
                 <td th:text="${pb.getTypeProduit().getIntitule()}"></td>
-                <td th:text="${pb.getClientBancaire().getId()}"></td>
+
+                <!-- Affiche la liste des personnes (morales ou physiques) liée au client bancaire associé -->
+                <td>
+                    <ul>
+                        <li th:each="p : ${pb.clientBancaire.getPersonnes()}"
+                            th:text="${p.nomComplet()}">
+                        </li>
+                    </ul>
+                </td>
+
+                <!-- Affiche le solde courant du produit bancaire -->
                 <td th:text="${pb.getSolde_courant()}"></td>
-                <td><a class="btn btn-primary" th:href="@{produitBancaire/edit/{id}(id=${pb.id})}">Modifier</a>
+
+                <!-- Actions disponibles pour chaque produit bancaire -->
+                <td>
+                    <!-- Bouton de modification -->
+                    <a class="btn btn-primary" th:href="@{produitBancaire/edit/{id}(id=${pb.id})}">
+                        Modifier
+                    </a>
+                    <!-- Bouton de suppression avec confirmation -->
                     <a class="btn btn-danger btn-sm"
                        th:href="@{/produitBancaire/delete/{id}(id=${pb.id})}"
-                       onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
+                       onclick="return confirm('Confirmer la suppression ?');">
+                        Supprimer
+                    </a>
                 </td>
             </tr>
+
             </tbody>
         </table>
     </div>

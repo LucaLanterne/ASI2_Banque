@@ -3,48 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+
+    <!-- Inclusion de Bootstrap pour la mise en page et le style -->
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet">
 </head>
 <body>
+
+<!-- Insertion de la barre de navigation commune -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
+
 <div class="container">
     <div class="row p-3">
-        <div class=" col-lg-6 col-md-6 col-sm-6 container justify-content-center card pt-3">
-            <h1 class="text-center" th:if="${personnePhysique.id != null}">Modification d'une personne physique</h1>
-            <h1 class="text-center" th:unless="${personnePhysique.id != null}">Création d'une personne physique</h1>
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card p-3">
+
+            <!-- Titre de la page : Modification si l'entité existe, Création sinon -->
+            <h1 class="text-center" th:if="${personnePhysique.id != null}">
+                Modification d'une personne physique
+            </h1>
+            <h1 class="text-center" th:unless="${personnePhysique.id != null}">
+                Création d'une personne physique
+            </h1>
+
             <div class="card-body">
+                <!-- Formulaire de création ou modification d'une personne physique -->
                 <form th:action="@{/personnePhysique/save/}" th:object="${personnePhysique}" method="POST">
+
+                    <!-- Champ Nom -->
                     <div class="form-group">
                         <label>Nom</label>
-                        <input type="text" name="personnePhysique"
+                        <input type="text"
                                th:field="*{nom}"
-                               class="form-control"
-                               placeholder="Saisir le nom"/>
+                        class="form-control"
+                        placeholder="Saisir le nom"/>
                     </div>
+
+                    <!-- Champ Prénom -->
                     <div class="form-group">
                         <label>Prénom</label>
                         <input type="text"
-                               name="prenom"
                                th:field="*{prenom}"
-                               class="form-control"
-                               placeholder="Saisir le prénom"/>
+                        class="form-control"
+                        placeholder="Saisir le prénom"/>
                     </div>
+
+                    <!-- Champ Adresse -->
                     <div class="form-group">
                         <label>Adresse</label>
-                        <input type="text" name="adresse"
+                        <input type="text"
                                th:field="*{adresse}"
-                               class="form-control"
-                               placeholder="Saisir l'adresse"/>
+                        class="form-control"
+                        placeholder="Saisir l'adresse"/>
                     </div>
+
+                    <!-- Boutons de soumission -->
                     <div class="box-footer">
+                        <!-- Champ caché pour l'identifiant, utilisé en modification -->
                         <input type="hidden" th:field="*{id}" id="id"/>
-                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        <button type="submit" class="btn btn-primary">
+                            Enregistrer les modifications
+                        </button>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>

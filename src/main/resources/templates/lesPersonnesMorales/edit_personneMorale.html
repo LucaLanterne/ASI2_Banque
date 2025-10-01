@@ -3,62 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+
+    <!-- Inclusion de Bootstrap pour la mise en page et le style -->
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet">
 </head>
 <body>
+
+<!-- Insertion de la barre de menu depuis le fragment commun -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
+
 <div class="container">
-    <div class="row">
-        <div class=" col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <h1 class="text-center" th:if="${personneMorale.id != null}">Modification d'une personne morale</h1>
-            <h1 class="text-center" th:unless="${personneMorale.id != null}">Création d'une personne morale</h1>
+    <div class="row p-3">
+        <!-- Card centrale pour le formulaire de création/modification -->
+        <div class="col-lg-6 col-md-6 col-sm-6 p-3 container justify-content-center card">
+
+            <!-- Titre conditionnel : modification ou création -->
+            <h1 class="text-center" th:if="${personneMorale.id != null}">
+                Modification d'une personne morale
+            </h1>
+            <h1 class="text-center" th:unless="${personneMorale.id != null}">
+                Création d'une personne morale
+            </h1>
+
             <div class="card-body">
+                <!-- Formulaire Thymeleaf :
+                     th:object lie le formulaire à l'objet `personneMorale` côté contrôleur
+                     th:action définit l'URL de soumission POST -->
                 <form th:action="@{/personneMorale/save/}" th:object="${personneMorale}" method="POST">
+
+                    <!-- Champ texte pour la raison sociale -->
                     <div class="form-group">
                         <label>Raison sociale</label>
-                        <input type="text" name="personneMorale"
+                        <input type="text"
+                               name="personneMorale"
                                th:field="*{raisonSociale}"
-                               class="form-control"
-                               placeholder="Saisir la raison sociale"/>
+                        class="form-control"
+                        placeholder="Saisir la raison sociale"/>
                     </div>
+
+                    <!-- Champ texte pour le numéro de SIRET -->
                     <div class="form-group">
                         <label>SIRET</label>
                         <input type="text"
                                name="SIRET"
                                th:field="*{SIRET}"
-                               class="form-control"
-                               placeholder="Saisir le numéro de SIRET"/>
+                        class="form-control"
+                        placeholder="Saisir le numéro de SIRET"/>
                     </div>
+
+                    <!-- Champ texte pour l'adresse -->
                     <div class="form-group">
                         <label>Adresse</label>
-                        <input type="text" name="adresse"
+                        <input type="text"
+                               name="adresse"
                                th:field="*{adresse}"
-                               class="form-control"
-                               placeholder="Saisir l'adresse"/>
+                        class="form-control"
+                        placeholder="Saisir l'adresse"/>
                     </div>
+
+                    <!-- Sélecteur pour le type de personne morale -->
                     <div class="form-group">
                         <label for="select_typePersonneMorale">Choisir un type de personne morale</label>
-                        <select
-                                name="typePersonneMoraleId"
+                        <select name="typePersonneMoraleId"
                                 id="select_typePersonneMorale"
                                 class="form-control" required>
                             <option value=""> - Choisissez un type de personne morale -</option>
-                            <th:block th:each="tpm:${listeTypesPersonnesMorales}">
+
+                            <!-- Boucle Thymeleaf pour remplir les options du select -->
+                            <th:block th:each="tpm : ${listeTypesPersonnesMorales}">
                                 <option th:text="${tpm.intitule}"
-                                        th:value="${tpm.id}"
-                                        th:selected="${personneMorale.typePersonneMorale != null and tpm.id == personneMorale.typePersonneMorale.id}"/>
+                                th:value="${tpm.id}"
+                                th:selected="${personneMorale.typePersonneMorale != null
+                                and tpm.id == personneMorale.typePersonneMorale.id}"/>
                             </th:block>
                         </select>
                     </div>
+
+                    <!-- Footer avec bouton de soumission -->
                     <div class="box-footer">
+                        <!-- Champ caché pour conserver l'ID de la personne morale si modification -->
                         <input type="hidden" th:field="*{id}" id="id"/>
-                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        <button type="submit" class="btn btn-primary">
+                            Enregistrer les modifications
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>

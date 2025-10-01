@@ -3,20 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion des clients bancaires</title>
+
+    <!-- Bootstrap CSS pour le style et la mise en page -->
     <link crossorigin="anonymous"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           rel="stylesheet">
 </head>
 <body>
+
+<!-- Inclusion du fragment de menu global -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
 
 <div class="container">
-    <div class="row pt-3 pb-3"><h1>Liste des clients bancaires</h1></div>
-    <div class="row">
-        <div class="col-lg-3"><a class="btn btn-primary btn-sm mb-3" th:href="@{/clientBancaire/edit}">Ajouter des clients</a></div>
+
+    <!-- Titre de la page -->
+    <div class="row pt-3 pb-3">
+        <h1>Liste des clients bancaires</h1>
     </div>
 
+    <!-- Bouton pour ajouter un nouveau client -->
+    <div class="row">
+        <div class="col-lg-3">
+            <a class="btn btn-primary btn-sm mb-3" th:href="@{/clientBancaire/edit}">
+                Ajouter des clients
+            </a>
+        </div>
+    </div>
+
+    <!-- Tableau des clients bancaires -->
     <div class="row">
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
@@ -28,19 +43,20 @@
             </tr>
             </thead>
             <tbody>
+            <!-- Parcours de la liste des clients fournie par le modèle -->
             <tr th:each="cb : ${listeClientsBancaires}">
-                <!-- ID -->
+
+                <!-- ID du client -->
                 <td th:text="${cb.id}"></td>
 
-                <!-- Titulaires -->
+                <!-- Liste des titulaires (personnes physiques et morales) -->
                 <td>
                     <ul>
-                        <li th:each="p : ${cb.personnes}"
-                            th:text="${p.nomComplet()}"></li>
+                        <li th:each="p : ${cb.personnes}" th:text="${p.nomComplet()}"></li>
                     </ul>
                 </td>
 
-                <!-- Produits bancaires -->
+                <!-- Liste des produits bancaires rattachés au client -->
                 <td>
                     <ul>
                         <li th:each="pb : ${cb.produitBancaires}"
@@ -49,13 +65,22 @@
                     </ul>
                 </td>
 
-                <!-- Actions -->
+                <!-- Actions possibles pour chaque client : modifier ou supprimer -->
                 <td>
-                    <a class="btn btn-primary btn-sm" th:href="@{/clientBancaire/edit/{id}(id=${cb.id})}">Modifier</a>
+                    <!-- Lien vers le formulaire de modification -->
+                    <a class="btn btn-primary btn-sm"
+                       th:href="@{/clientBancaire/edit/{id}(id=${cb.id})}">
+                        Modifier
+                    </a>
+
+                    <!-- Lien pour supprimer le client avec confirmation JS -->
                     <a class="btn btn-danger btn-sm"
                        th:href="@{/clientBancaire/delete/{id}(id=${cb.id})}"
-                       onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
+                       onclick="return confirm('Confirmer la suppression ?');">
+                        Supprimer
+                    </a>
                 </td>
+
             </tr>
             </tbody>
         </table>

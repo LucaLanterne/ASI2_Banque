@@ -3,35 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaires</title>
+    <!-- Bootstrap CSS pour le style et la mise en page -->
     <link crossorigin="anonymous"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           rel="stylesheet">
 </head>
 <body>
+<!-- Insertion de la barre de menu commune via Thymeleaf -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
+
+<!-- Conteneur principal pour l'affichage de l'opération -->
 <div class="container">
+    <!-- Titre de la page -->
     <h2 class="text-center">Consultation d'une opération</h2>
+
+    <!-- Tableau pour afficher les détails de l'opération -->
     <table class="table-borderless table-sm">
         <tbody>
-        <tr class>
-            <td><p class="p-2 mb-1 bg-dark text-white" >Date opération</p></td>
-            <td><p class="p-2 mb-1 border border-dark" th:text="${#dates.format(operation.dateOperation, 'dd/MM/yyyy')}"></p></td>
-        </tr>
+        <!-- Ligne affichant la date de l'opération -->
         <tr>
-            <td><p class="p-2 mb-1 bg-dark text-white">Intitulé opération</p></td>
-            <td><p class="p-2 mb-2 table-light border border-dark" th:text="${operation.libelle}"></p></td>
+            <td>
+                <p class="p-2 mb-1 bg-dark text-white">Date opération</p>
+            </td>
+            <td>
+                <!-- Formattage de la date via Thymeleaf et #dates.format -->
+                <p class="p-2 mb-1 border border-dark"
+                   th:text="${#dates.format(operation.dateOperation, 'dd/MM/yyyy')}"></p>
+            </td>
         </tr>
+
+        <!-- Ligne affichant le libellé de l'opération -->
         <tr>
-            <td><p class="p-2 mb-1 bg-dark text-white">Montant opération</p></td>
-            <td><p class="p-2 mb-1 table-light border border-dark" th:text="${operation.montant}"></p></td>
+            <td>
+                <p class="p-2 mb-1 bg-dark text-white">Intitulé opération</p>
+            </td>
+            <td>
+                <p class="p-2 mb-2 table-light border border-dark" th:text="${operation.libelle}"></p>
+            </td>
         </tr>
+
+        <!-- Ligne affichant le montant de l'opération -->
         <tr>
-            <td><p class="p-2 mb-1 bg-dark text-white">Type opération</p></td>
-            <td><p class="p-2 mb-1 table-light border border-dark" th:text="${operation.type}"></p></td>
+            <td>
+                <p class="p-2 mb-1 bg-dark text-white">Montant opération</p>
+            </td>
+            <td>
+                <p class="p-2 mb-1 table-light border border-dark" th:text="${operation.montant}"></p>
+            </td>
+        </tr>
+
+        <!-- Ligne affichant le type de l'opération (Débit / Crédit) -->
+        <tr>
+            <td>
+                <p class="p-2 mb-1 bg-dark text-white">Type opération</p>
+            </td>
+            <td>
+                <p class="p-2 mb-1 table-light border border-dark" th:text="${operation.type}"></p>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <!-- Formulaire pour revenir à la liste des opérations -->
     <form th:action="@{/operation}" method="GET">
         <div class="box-footer mt-3 mb-2">
             <button type="submit" class="btn btn-primary">

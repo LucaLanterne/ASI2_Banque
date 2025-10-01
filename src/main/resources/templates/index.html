@@ -2,15 +2,30 @@
 <html lang="fr"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css/}" />
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
+
+    <!-- Inclusion de Bootstrap depuis WebJars pour le style responsive -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css/}" />
 </head>
 <body>
+
+<!-- Insertion de la barre de navigation commune -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
-<div class="container-fluid text-center">
-    <h1> Bienvenue dans l'espace de gestion des clients.</h1>
+
+<!-- Conteneur principal centré avec un peu d'espace en haut -->
+<div class="container text-center pt-5">
+
+    <!-- Titre principal de bienvenue -->
+    <h1>Bienvenue dans l'espace de gestion bancaire</h1>
+
+    <!-- Petit texte explicatif pour guider l'utilisateur -->
+    <p class="lead mt-3">
+        Utilisez le menu ci-dessus pour accéder aux différentes sections : clients, produits et opérations.
+    </p>
+
 </div>
+
 </body>
 </html>

@@ -3,17 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+
+    <!-- Inclusion de Bootstrap pour le style et la mise en page -->
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet">
 </head>
 <body>
+
+<!-- Insertion de la barre de menu depuis le fragment commun -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
+
 <div class="container">
-    <div class="row pt-3 pb-3"><h1>Liste des personnes morales</h1></div>
-    <div class="row">
-        <div class="col-lg-3"><a class="btn btn-primary btn-sm mb-3" th:href="@{/personneMorale/edit}">Ajouter des
-            personnes morales</a></div>
+
+    <!-- Titre de la page -->
+    <div class="row pt-3 pb-3">
+        <h1>Liste des personnes morales</h1>
     </div>
+
+    <!-- Bouton pour créer une nouvelle personne morale -->
+    <div class="row">
+        <div class="col-lg-3">
+            <a class="btn btn-primary btn-sm mb-3"
+               th:href="@{/personneMorale/edit}">
+                Ajouter des personnes morales
+            </a>
+        </div>
+    </div>
+
+    <!-- Tableau listant toutes les personnes morales -->
     <div class="row">
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
@@ -26,20 +45,30 @@
             </tr>
             </thead>
             <tbody>
+            <!-- Boucle Thymeleaf : pour chaque personne morale dans la liste -->
             <tr th:each="pm : ${listePersonnesMorales}">
-                <td th:text="${pm.raisonSociale}"></td>
-                <td th:text="${pm.SIRET}"></td>
-                <td th:text="${pm.adresse}"></td>
-                <td th:text="${pm.typePersonneMorale.intitule}"></td>
-                <td><a class="btn btn-primary" th:href="@{personneMorale/edit/{id}(id=${pm.id})}">Modifier</a>
+                <td th:text="${pm.raisonSociale}"></td> <!-- Affiche la raison sociale -->
+                <td th:text="${pm.SIRET}"></td>        <!-- Affiche le SIRET -->
+                <td th:text="${pm.adresse}"></td>      <!-- Affiche l'adresse -->
+                <td th:text="${pm.typePersonneMorale.intitule}"></td> <!-- Affiche le type de personne morale -->
+
+                <!-- Actions : modifier ou supprimer la personne morale -->
+                <td>
+                    <a class="btn btn-primary"
+                       th:href="@{/personneMorale/edit/{id}(id=${pm.id})}">
+                        Modifier
+                    </a>
                     <a class="btn btn-danger btn-sm"
                        th:href="@{/personneMorale/delete/{id}(id=${pm.id})}"
-                       onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
+                       onclick="return confirm('Confirmer la suppression ?');">
+                        Supprimer
+                    </a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+
 </body>
 </html>

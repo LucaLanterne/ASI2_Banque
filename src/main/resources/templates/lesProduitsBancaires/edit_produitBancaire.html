@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+
+    <!-- Inclusion de Bootstrap pour le style et la mise en page -->
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet">
+
+    <!-- JQuery et JQuery UI pour l'autocomplétion -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Script pour l'autocomplétion du client bancaire -->
     <script type="text/javascript">
         $(function(){
             $("#clientBancaireAutocomplete").autocomplete({
@@ -18,37 +26,55 @@
     </script>
 </head>
 <body>
+
+<!-- Insertion de la barre de navigation commune -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
+
 <div class="container">
     <div class="row">
-        <div class=" col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <h1 class="text-center" th:if="${produitBancaire.id != null}">Modification d'un produit bancaire</h1>
-            <h1 class="text-center" th:unless="${produitBancaire.id != null}">Création d'un produit bancaire</h1>
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+
+            <!-- Titres conditionnels selon que le produit existe ou non -->
+            <h1 class="text-center" th:if="${produitBancaire.id != null}">
+                Modification d'un produit bancaire
+            </h1>
+            <h1 class="text-center" th:unless="${produitBancaire.id != null}">
+                Création d'un produit bancaire
+            </h1>
+
             <div class="card-body">
+                <!-- Formulaire principal -->
                 <form th:action="@{/produitBancaire/save/}" th:object="${produitBancaire}" method="POST">
+
+                    <!-- Sélection du client bancaire -->
                     <div class="form-group">
                         <label for="select_clientBancaire">Choisir un client bancaire</label>
-                        <select
-                            name="clientBancaireId"
-                            id="select_clientBancaire"
-                            class="form-control"
-                            required>
+                        <select name="clientBancaireId"
+                                id="select_clientBancaire"
+                                class="form-control"
+                                required>
                             <option value=""> - Choisissez un client bancaire -</option>
+
+                            <!-- Boucle Thymeleaf pour remplir la liste des clients -->
                             <th:block th:each="cb:${listeClientsBancaires}">
+                                <!-- Affiche le nom complet de chaque titulaire du client bancaire -->
                                 <option th:text="${#strings.arrayJoin(cb.getPersonnes().![nomComplet()], ' - ')}"
                                         th:value="${cb.id}"
                                         th:selected="${produitBancaire.clientBancaire != null and cb.id == produitBancaire.clientBancaire.id}"/>
                             </th:block>
                         </select>
                     </div>
+
+                    <!-- Sélection du type de produit -->
                     <div class="form-group">
                         <label for="select_typeProduit">Choisir un type de produit</label>
-                        <select
-                                name="typeProduitId"
+                        <select name="typeProduitId"
                                 id="select_typeProduit"
                                 class="form-control"
                                 required>
                             <option value=""> - Choisissez un type de produit -</option>
+
+                            <!-- Boucle Thymeleaf pour remplir la liste des types de produits -->
                             <th:block th:each="tp:${listeTypesProduits}">
                                 <option th:text="${tp.intitule}"
                                         th:value="${tp.id}"
@@ -56,6 +82,8 @@
                             </th:block>
                         </select>
                     </div>
+
+                    <!-- Champ pour le solde courant -->
                     <div class="form-group">
                         <label>Solde courant</label>
                         <input type="text" name="soldeCourant"
@@ -63,11 +91,16 @@
                                class="form-control"
                                placeholder="Saisir le solde courant du compte"/>
                     </div>
+
+                    <!-- Champs cachés et bouton de soumission -->
                     <div class="box-footer">
+                        <!-- Numéro de compte (caché) -->
                         <input type="hidden" th:field="*{numeroCompte}" id="numeroCompte"/>
+                        <!-- ID du produit bancaire (caché) -->
                         <input type="hidden" th:field="*{id}" id="id"/>
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                     </div>
+
                 </form>
             </div>
         </div>

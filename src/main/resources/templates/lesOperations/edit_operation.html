@@ -3,73 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
+    <!-- Inclusion de Bootstrap pour le style et la mise en page responsive -->
     <link crossorigin="anonymous"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           rel="stylesheet">
 </head>
 <body>
+
+<!-- Insertion de la barre de menu commune depuis le fragment Thymeleaf -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
-<div class="container" >
-    <div class="row">
-        <div class=" col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <!-- Petit exemple de conditionnelle pour l'affichage du titre de la page-->
-            <h1 class="text-center" th:if="${operation.id != null}">Modification d'une opération du compte</h1>
-            <h1 class="text-center" th:unless="${operation.id != null}">Création d'une opération du compte</h1>
-            <h1 class = "text-center" th:text="${operation.produitBancaire.numeroCompte}"></h1>
+
+<!-- Conteneur principal centré pour le formulaire d'opération -->
+<div class="container">
+    <div class="row p-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 p-3 container justify-content-center card">
+
+            <!-- Titre conditionnel : affiché selon que l'objet operation a un id ou non -->
+            <h1 class="text-center" th:if="${operation.id != null}">
+                Modification d'une opération du compte
+            </h1>
+            <h1 class="text-center" th:unless="${operation.id != null}">
+                Création d'une opération du compte
+            </h1>
+
+            <!-- Affichage du numéro du compte bancaire associé à cette opération -->
+            <h1 class="text-center" th:text="${operation.produitBancaire.numeroCompte}"></h1>
+
             <div class="card-body">
-                <!-- Le formulaire poste tous les champs input et le moteur de template modifie et renvoie
-                l'objet conditionsGenerales
-                Cet objet a été construit et rempli dans ProduitBancaireController -->
+                <!-- Formulaire d'édition / création d'une opération -->
+                <!--
+                    Le formulaire utilise th:object pour lier directement les champs de l'objet 'operation'.
+                    Lors de la soumission, Spring récupère cet objet et le passe au contrôleur.
+                -->
                 <form th:action="@{/operation/save/}" th:object="${operation}" method="POST">
+
+                    <!-- Champ Date de l'opération -->
                     <div class="form-group">
                         <label>Date de l'opération</label>
-                        <input
-                                type="date"
-                                name="dateOperation"
-                                th:field="*{dateOperation}"
-                                class="form-control"
-                                placeholder="Saisir la date de l'opération"
-                        />
+                        <input type="date"
+                               name="dateOperation"
+                               th:field="*{dateOperation}"
+                               class="form-control"
+                               placeholder="Saisir la date de l'opération"/>
                     </div>
+
+                    <!-- Champ Intitulé / Libellé de l'opération -->
                     <div class="form-group">
                         <label>Intitulé de l'opération</label>
-                        <input
-                                type="text"
-                                name="intituleOperation"
-                                th:field="*{libelle}"
-                                class="form-control"
-                                placeholder="Saisir l'intitulé de l'opération"
-                        />
+                        <input type="text"
+                               name="intituleOperation"
+                               th:field="*{libelle}"
+                               class="form-control"
+                               placeholder="Saisir l'intitulé de l'opération"/>
                     </div>
+
+                    <!-- Champ Montant de l'opération -->
                     <div class="form-group">
                         <label>Montant de l'opération</label>
-                        <input
-                                type="number"
-                                name="montant"
-                                th:field="*{montant}"
-                                class="form-control"
-                        />
+                        <input type="number"
+                               name="montant"
+                               th:field="*{montant}"
+                               class="form-control"/>
                     </div>
+
+                    <!-- Champ Type d'opération (ex : Débit / Crédit) -->
                     <div class="form-group">
                         <label>Type d'opération</label>
-                        <input
-                                type="text"
-                                name="typeOperation"
-                                th:field="*{type}"
-                                class="form-control"
-                        />
+                        <input type="text"
+                               name="typeOperation"
+                               th:field="*{type}"
+                               class="form-control"/>
                     </div>
+
+                    <!-- Boutons d'action -->
                     <div class="box-footer">
-                        <input type="hidden" th:field="*{id}" id="id">
+                        <!-- Champ caché pour l'ID, utilisé pour modification -->
+                        <input type="hidden" th:field="*{id}" id="id"/>
+                        <!-- Bouton de soumission -->
                         <button type="submit" class="btn btn-primary">
                             Enregistrer les modifications
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>

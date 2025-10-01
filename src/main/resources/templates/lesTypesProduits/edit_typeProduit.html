@@ -3,21 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion bancaire</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+
+    <!-- Inclusion de Bootstrap pour le style et la mise en page responsive -->
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          rel="stylesheet">
 </head>
 <body>
+
+<!-- Insertion de la barre de navigation commune -->
 <div th:insert="~{Common/menu_bar :: menubar}"></div>
+
 <div class="container">
+
+    <!-- Formulaire de création/modification d'un type de produit bancaire -->
     <div class="row">
-        <div class=" col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <!-- Petit exemple de conditionnelle pour l'affichage du titre de la page -->
-            <h1 class="text-center" th:if="${typeProduit.id != null}">Modification d'un type de produit</h1>
-            <h1 class="text-center" th:unless="${typeProduit.id != null}">Création d'un type de produit</h1>
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+
+            <!-- Titre conditionnel selon que l'objet existe ou non -->
+            <h1 class="text-center" th:if="${typeProduit.id != null}">
+                Modification d'un type de produit
+            </h1>
+            <h1 class="text-center" th:unless="${typeProduit.id != null}">
+                Création d'un type de produit
+            </h1>
+
             <div class="card-body">
-                <!-- Le formulaire poste tous les champs input et le moteur de template modifie et renvoie l'objet typeProduit
-                Cet objet a été construit et rempli dans TypeProduitController -->
+                <!-- Formulaire Thymeleaf lié à l'objet "typeProduit" -->
                 <form th:action="@{/typeProduit/save/}" th:object="${typeProduit}" method="POST">
+
+                    <!-- Intitulé du type de produit -->
                     <div class="form-group">
                         <label>Intitulé</label>
                         <input type="text" name="typeProduit"
@@ -25,6 +41,8 @@
                                class="form-control"
                                placeholder="Saisir l'intitulé"/>
                     </div>
+
+                    <!-- Taux d'intérêt ou agios associé au produit -->
                     <div class="form-group">
                         <label>Taux intérêt / agios</label>
                         <input type="text"
@@ -33,6 +51,8 @@
                                class="form-control"
                                placeholder="Saisir le taux intérêt/agios"/>
                     </div>
+
+                    <!-- Cotisation éventuelle pour les cartes -->
                     <div class="form-group">
                         <label>Cotisation carte</label>
                         <input type="text" name="cotisationCarte"
@@ -40,12 +60,18 @@
                                class="form-control"
                                placeholder="Saisir la cotisation si c'est une carte"/>
                     </div>
+
+                    <!-- Bouton de soumission et champ caché pour l'ID (utile pour modification) -->
                     <div class="box-footer">
                         <input type="hidden" th:field="*{id}" id="id"/>
-                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        <button type="submit" class="btn btn-primary">
+                            Enregistrer les modifications
+                        </button>
                     </div>
+
                 </form>
             </div>
+
         </div>
     </div>
 </div>
