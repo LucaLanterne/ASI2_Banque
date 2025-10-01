@@ -1,7 +1,6 @@
 package com.banque.restAPI;
 
 import com.banque.dataTransfertObjects.ProduitBancaireDto;
-import com.banque.dataTransfertObjects.TypeProduitDto;
 import com.banque.mapper.ProduitBancaireMapper;
 import com.banque.model.ClientBancaire;
 import com.banque.model.ProduitBancaire;
@@ -20,6 +19,10 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Contrôleur REST pour gérer les produits bancaires.
+ * Fournit des endpoints pour récupérer tous les produits et créer des produits d'exemple.
+ */
 @RestController
 @RequestMapping("/banque_rest/ProduitBancaire")
 public class ProduitBancaireRestController {
@@ -30,10 +33,21 @@ public class ProduitBancaireRestController {
     private final ProduitBancaireRepository produitBancaireRepository;
     private final ProduitBancaireMapper produitBancaireMapper;
 
+    /**
+     * Constructeur pour l'injection des services et repositories nécessaires.
+     *
+     * @param produitBancaireService service pour gérer les produits bancaires
+     * @param typeProduitRepository repository pour accéder aux types de produits
+     * @param clientBancaireRepository repository pour accéder aux clients bancaires
+     * @param produitBancaireRepository repository pour accéder aux produits bancaires
+     * @param produitBancaireMapper mapper pour convertir les produits bancaires en DTO
+     */
     @Autowired
     public ProduitBancaireRestController(ProduitBancaireService produitBancaireService,
                                          TypeProduitRepository typeProduitRepository,
-                                         ClientBancaireRepository clientBancaireRepository, ProduitBancaireRepository produitBancaireRepository, ProduitBancaireMapper produitBancaireMapper) {
+                                         ClientBancaireRepository clientBancaireRepository,
+                                         ProduitBancaireRepository produitBancaireRepository,
+                                         ProduitBancaireMapper produitBancaireMapper) {
         this.produitBancaireService = produitBancaireService;
         this.typeProduitRepository = typeProduitRepository;
         this.clientBancaireRepository = clientBancaireRepository;
@@ -41,21 +55,36 @@ public class ProduitBancaireRestController {
         this.produitBancaireMapper = produitBancaireMapper;
     }
 
+    /**
+     * Récupère tous les produits bancaires existants.
+     * Mapping GET sur /banque_rest/ProduitBancaire
+     *
+     * @return liste des produits bancaires sous forme de DTO
+     */
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<ProduitBancaireDto>> getAllProduitsBancaires()
-    {
-        List<ProduitBancaireDto> liste= produitBancaireService.getAllProduitsBancaires()
+    public ResponseEntity<List<ProduitBancaireDto>> getAllProduitsBancaires() {
+        List<ProduitBancaireDto> liste = produitBancaireService.getAllProduitsBancaires()
                 .stream()
                 .map(produitBancaireMapper::toDto)
                 .collect(toList());
-        return new ResponseEntity<List<ProduitBancaireDto>>(liste, HttpStatus.CREATED);
+        return new ResponseEntity<>(liste, HttpStatus.CREATED);
     }
 
-    // Exemple URL : http://localhost:8080/banque_rest/ProduitBancaire/createProduitsBancaires
-    @PostMapping("/createProduitsBancaires")
+    /**
+     * Crée des produits bancaires d'exemple pour la base de données à des fins de tests.
+     * Mapping POST sur /banque_rest/ProduitBancaire/createProduitsBancairesTest
+     *
+     * <p>
+     * - Récupère les types de produits et clients existants.
+     * - Crée trois produits bancaires avec des valeurs prédéfinies.
+     * - Sauvegarde les produits en base.
+     * </p>
+     * @return liste des produits bancaires créés
+     */
+    @PostMapping("/createProduitsBancairesTests")
     @ResponseBody
-    public ResponseEntity<List<ProduitBancaire>> createProduitsBancaires() {
+    public ResponseEntity<List<ProduitBancaire>> createProduitsBancairesTests() {
         // Récupération des types de produits
         TypeProduit compteCheque = typeProduitRepository.findByIntitule("Compte chèque");
         TypeProduit livretA = typeProduitRepository.findByIntitule("Livret A");
@@ -74,6 +103,6 @@ public class ProduitBancaireRestController {
         List<ProduitBancaire> produits = Arrays.asList(pb1, pb2, pb3);
         produitBancaireRepository.saveAll(produits);
 
-        return new ResponseEntity<List<ProduitBancaire>>(produits, HttpStatus.CREATED);
+        return new ResponseEntity<>(produits, HttpStatus.CREATED);
     }
 }

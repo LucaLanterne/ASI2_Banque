@@ -10,98 +10,102 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Contrôleur REST pour gérer les types de produits bancaires.
+ * Fournit des endpoints pour récupérer, créer, mettre à jour et supprimer des types de produits.
+ */
 @RestController
 @RequestMapping("/banque_rest/TypeProduit")
-public class TypeProduitRestController
-{
+public class TypeProduitRestController {
+
     private final TypeProduitService typeProduitService;
     private final TypeProduitMapper typeProduitMapper;
 
+    /**
+     * Constructeur pour l'injection des services et du mapper.
+     *
+     * @param typeProduitService service pour gérer les types de produits
+     * @param typeProduitMapper mapper pour convertir les entités TypeProduit en DTO et inversement
+     */
     @Autowired
-    public TypeProduitRestController(TypeProduitService typeProduitService, TypeProduitMapper typeProduitMapper)
-    {
+    public TypeProduitRestController(TypeProduitService typeProduitService, TypeProduitMapper typeProduitMapper) {
         this.typeProduitService = typeProduitService;
         this.typeProduitMapper = typeProduitMapper;
     }
 
-    //    // exemple URL : http://localhost:8080/banque_rest/TypeProduit
-//    @GetMapping
-//    public ResponseEntity<List<TypeProduit>> getAllTypeProduit()
-//    {
-//        List<TypeProduit> liste= typeProduitService.getAllTypesProduits();
-//        return new ResponseEntity<List<TypeProduit>>(liste, HttpStatus.CREATED);
-//    }
-    // Version du getAll qui utilise le mapper et les dtos
+    /**
+     * Récupère tous les types de produits bancaires.
+     * Mapping GET sur /banque_rest/TypeProduit
+     *
+     * @return liste des types de produits convertis en DTO
+     */
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<TypeProduitDto>> getAllTypesProduits()
-    {
-        List<TypeProduitDto> liste= typeProduitService.getAllTypesProduits()
+    public ResponseEntity<List<TypeProduitDto>> getAllTypesProduits() {
+        List<TypeProduitDto> liste = typeProduitService.getAllTypesProduits()
                 .stream()
                 .map(typeProduitMapper::toDto)
                 .collect(toList());
-        return new ResponseEntity<List<TypeProduitDto>>(liste, HttpStatus.CREATED);
+        return new ResponseEntity<>(liste, HttpStatus.CREATED);
     }
 
-    // exemple URL : http://localhost:8080/banque_rest/TypeProduit/1
-//    @GetMapping("{id}")
-//    public ResponseEntity<TypeProduit> getTypeProduitById(@PathVariable("id") long idTypeProduit)
-//    {
-//        TypeProduit typeProduit= typeProduitService.getTypeProduitById(idTypeProduit);
-//        return new ResponseEntity<TypeProduit>(typeProduit, HttpStatus.OK);
-//    }
-    // Version du getById qui utilise le mapper et les dtos
+    /**
+     * Récupère un type de produit par son ID.
+     * Mapping GET sur /banque_rest/TypeProduit/{id}
+     *
+     * @param id identifiant du type de produit
+     * @return type de produit converti en DTO
+     */
     @GetMapping("{id}")
     @ResponseBody
-    public ResponseEntity<TypeProduitDto> getTypeProduitByIdWithMapper(@PathVariable("id") long id)
-    {
-        TypeProduit typeProduit= typeProduitService.getTypeProduitById(id);
-        return new ResponseEntity<TypeProduitDto>(typeProduitMapper.toDto(typeProduit), HttpStatus.OK);
+    public ResponseEntity<TypeProduitDto> getTypeProduitById(@PathVariable("id") long id) {
+        TypeProduit typeProduit = typeProduitService.getTypeProduitById(id);
+        return new ResponseEntity<>(typeProduitMapper.toDto(typeProduit), HttpStatus.OK);
     }
 
-    // exemple URL : http://localhost:8080/banque_rest/TypeProduit/add
-//    @PostMapping("/add")
-//    public ResponseEntity<TypeProduit> addTypeProduit(@RequestBody TypeProduit typeProduit)
-//    {
-//        TypeProduit tp= typeProduitService.createTypeProduit(typeProduit);
-//        return new ResponseEntity<TypeProduit>(tp, HttpStatus.CREATED);
-//    }
-    // Version du add qui utilise le mapper et les dtos
+    /**
+     * Crée un nouveau type de produit bancaire.
+     * Mapping POST sur /banque_rest/TypeProduit/add
+     * Redirige vers la création du DTO correspondant.
+     *
+     * @param typeProduitDto DTO contenant les données du type de produit à créer
+     * @return DTO du type de produit créé
+     */
     @PostMapping("/add")
     @ResponseBody
-    public ResponseEntity<TypeProduitDto> addTypeProduit(@RequestBody TypeProduitDto typeProduitDto)
-    {
-        TypeProduit typeProduit= typeProduitMapper.toEntity(typeProduitDto);
+    public ResponseEntity<TypeProduitDto> addTypeProduit(@RequestBody TypeProduitDto typeProduitDto) {
+        TypeProduit typeProduit = typeProduitMapper.toEntity(typeProduitDto);
         typeProduitService.createTypeProduit(typeProduit);
-        return new ResponseEntity<TypeProduitDto>(typeProduitMapper.toDto(typeProduit), HttpStatus.CREATED);
+        return new ResponseEntity<>(typeProduitMapper.toDto(typeProduit), HttpStatus.CREATED);
     }
 
-    // exemple URL : http://localhost:8080/banque_rest/TypeProduit/update
+    /**
+     * Met à jour un type de produit existant.
+     * Mapping PUT sur /banque_rest/TypeProduit/update
+     * Redirige vers la mise à jour du type de produit.
+     *
+     * @param typeProduit entité contenant les nouvelles valeurs du type de produit
+     * @return type de produit mis à jour
+     */
     @PutMapping("/update")
-    public ResponseEntity<TypeProduit> updateTypeProduit(@RequestBody TypeProduit typeProduit)
-    {
-        TypeProduit tp=typeProduitService.updateTypeProduit(typeProduit);
-        return new ResponseEntity<TypeProduit>(tp, HttpStatus.OK);
+    public ResponseEntity<TypeProduit> updateTypeProduit(@RequestBody TypeProduit typeProduit) {
+        TypeProduit tp = typeProduitService.updateTypeProduit(typeProduit);
+        return new ResponseEntity<>(tp, HttpStatus.OK);
     }
-//    // Version du update qui utilise le mapper et les dtos
-//    @PutMapping("/update")
-//    @ResponseBody
-//    public ResponseEntity<TypeProduitDto> updateTypeProduit(@RequestBody TypeProduitDto typeProduitDto)
-//    {
-//        TypeProduit typeProduit =  typeProduitMapper.toEntity(typeProduitDto);
-//        typeProduitService.updateTypeProduit(typeProduit);
-//        return new ResponseEntity<TypeProduitDto>(typeProduitMapper.toDto(typeProduit), HttpStatus.OK);
-//    }
 
-    // exemple URL : http://localhost:8080/banque_rest/TypeProduit/delete/2
+    /**
+     * Supprime un type de produit par son ID.
+     * Mapping DELETE sur /banque_rest/TypeProduit/delete/{id}
+     *
+     * @param id identifiant du type de produit à supprimer
+     * @return message confirmant la suppression
+     */
     @DeleteMapping("/delete/{id}")
     @ResponseBody
-    public ResponseEntity<String> deleteTypeProduit(@PathVariable("id") long id)
-    {
+    public ResponseEntity<String> deleteTypeProduit(@PathVariable("id") long id) {
         typeProduitService.deleteTypeProduitById(id);
-        return new ResponseEntity<String>("Suppression OK",HttpStatus.OK);
+        return new ResponseEntity<>("Suppression OK", HttpStatus.OK);
     }
 }
